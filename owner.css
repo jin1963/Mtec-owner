@@ -1,0 +1,88 @@
+:root{
+  --bg:#eef6ff;
+  --card:#ffffff;
+  --text:#0b1b33;
+  --muted:#5a6b85;
+  --blue:#1e73d8;
+  --blue2:#2c8cff;
+  --line:#d7e6ff;
+  --danger:#ff3b3b;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #e9f3ff 0%, #f7fbff 100%);
+  color:var(--text);
+}
+.wrap{max-width:1080px;margin:28px auto;padding:0 16px}
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; margin-bottom:18px;
+}
+.title{font-size:32px;font-weight:900;letter-spacing:.5px}
+.sub{color:var(--muted);margin-top:2px}
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:14px;
+}
+@media (max-width: 860px){
+  .grid{grid-template-columns:1fr}
+}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  box-shadow: 0 8px 24px rgba(30,115,216,.10);
+}
+.card h3{margin:0 0 12px 0}
+.row{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 0;
+  border-bottom:1px dashed #eaf2ff;
+}
+.row:last-child{border-bottom:none}
+label{display:block;margin:10px 0 6px;color:var(--muted);font-size:14px}
+input,select{
+  width:100%; padding:10px 12px; border-radius:12px;
+  border:1px solid var(--line);
+  outline:none;
+  font-size:15px;
+  background:#fbfdff;
+}
+input:focus,select:focus{border-color:var(--blue2); box-shadow:0 0 0 3px rgba(44,140,255,.15)}
+.btn{
+  width:100%;
+  margin-top:10px;
+  padding:11px 14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#f2f7ff;
+  cursor:pointer;
+  font-weight:800;
+}
+.btn.primary{
+  border:none;
+  color:#fff;
+  background: linear-gradient(90deg, var(--blue) 0%, var(--blue2) 100%);
+}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.badge{
+  display:inline-block;
+  padding:8px 10px;
+  border-radius:999px;
+  margin-top:10px;
+  font-weight:800;
+  font-size:13px;
+}
+.badge.ok{background:#e8fff0;color:#0a7a2a;border:1px solid #c5f3d1}
+.badge.warn{background:#fff6db;color:#805b00;border:1px solid #ffe6a6}
+.badge.bad{background:#ffe9e9;color:#9b0000;border:1px solid #ffc6c6}
+.msg{margin-top:10px;color:#0b1b33}
+.mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+.hint{margin-top:10px;color:var(--muted);font-size:13px}
+.footer{margin-top:16px;color:var(--muted);text-align:center}
+.card.danger{border-color:#ffd6d6}
