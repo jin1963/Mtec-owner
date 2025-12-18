@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MTEC Admin Panel</title>
+
+  <link rel="stylesheet" href="owner.css" />
+
+  <!-- ethers v5 UMD -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+  <!-- ต้องโหลด config.js ก่อนเสมอ -->
+  <script src="config.js"></script>
+  <script src="owner.js"></script>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <div class="title">MTEC Admin Panel</div>
+        <div class="sub">BSC Mainnet • Owner Tools</div>
+      </div>
+      <button id="btnConnect" class="btn primary">Connect Wallet</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>สถานะการเชื่อมต่อ</h3>
+
+        <div class="row">
+          <div class="label">Chain</div>
+          <div class="value" id="netLabel">-</div>
+        </div>
+        <div class="row">
+          <div class="label">Wallet</div>
+          <div class="value mono" id="walletLabel">-</div>
+        </div>
+        <div class="row">
+          <div class="label">Contract</div>
+          <div class="value mono" id="contractLabel">-</div>
+        </div>
+        <div class="row">
+          <div class="label">Owner</div>
+          <div class="value mono" id="ownerLabel">-</div>
+        </div>
+
+        <div class="pill" id="ownerStatus">Not connected</div>
+
+        <div class="msg" id="txMessage"></div>
+      </div>
+
+      <div class="card">
+        <h3>Balances</h3>
+
+        <div class="row">
+          <div class="label">USDT ในสัญญา</div>
+          <div class="value mono" id="balUsdtContract">-</div>
+        </div>
+        <div class="row">
+          <div class="label">MTEC ในสัญญา</div>
+          <div class="value mono" id="balMtecContract">-</div>
+        </div>
+
+        <div class="row">
+          <div class="label">USDT ในกระเป๋า</div>
+          <div class="value mono" id="balUsdtWallet">-</div>
+        </div>
+        <div class="row">
+          <div class="label">MTEC ในกระเป๋า</div>
+          <div class="value mono" id="balMtecWallet">-</div>
+        </div>
+
+        <button class="btn" id="btnRefresh">Refresh</button>
+      </div>
+
+      <div class="card">
+        <h3>ตั้งค่า APY / Lock / เปิด-ปิด</h3>
+
+        <div class="form">
+          <label>APY (BPS) เช่น 3000 = 30%</label>
+          <input id="apyBps" placeholder="3000" />
+
+          <label>Lock (วัน) เช่น 180</label>
+          <input id="lockDays" placeholder="180" />
+
+          <label>Enabled</label>
+          <select id="enabledSel">
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
+
+          <button class="btn primary" id="btnSetParams">Update Params</button>
+
+          <div class="hint" id="currentParams">Current: -</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>ตั้งค่า Referral (BPS)</h3>
+
+        <div class="form">
+          <label>Ref1 (เช่น 1000 = 10%)</label>
+          <input id="ref1" placeholder="1000" />
+
+          <label>Ref2 (เช่น 300 = 3%)</label>
+          <input id="ref2" placeholder="300" />
+
+          <label>Ref3 (เช่น 200 = 2%)</label>
+          <input id="ref3" placeholder="200" />
+
+          <button class="btn primary" id="btnSetRef">Update Referral Rates</button>
+        </div>
+      </div>
+
+      <div class="card span2">
+        <h3>ตั้งแพ็กเกจ</h3>
+
+        <div class="form grid2">
+          <div>
+            <label>Package ID</label>
+            <input id="pkgId" placeholder="1" />
+          </div>
+
+          <div>
+            <label>Active</label>
+            <select id="pkgActive">
+              <option value="true">true</option>
+              <option value="false">false</option>
+            </select>
+          </div>
+
+          <div>
+            <label>USDT In (จำนวนจริง เช่น 10)</label>
+            <input id="pkgUsdt" placeholder="10" />
+          </div>
+
+          <div>
+            <label>MTEC Out (จำนวนจริง เช่น 3500)</label>
+            <input id="pkgMtec" placeholder="3500" />
+          </div>
+
+          <button class="btn primary" id="btnSetPkg">Save Package</button>
+          <button class="btn" id="btnLoadPkgs">Load Packages</button>
+        </div>
+
+        <div class="tableWrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>USDT In</th>
+                <th>MTEC Out</th>
+                <th>Active</th>
+              </tr>
+            </thead>
+            <tbody id="pkgTable">
+              <tr><td colspan="4" class="muted">-</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card span2">
+        <h3>Withdraw</h3>
+
+        <div class="form grid2">
+          <div>
+            <label>To (address)</label>
+            <input id="wdTo" placeholder="0x..." />
+          </div>
+          <div></div>
+
+          <div>
+            <label>Withdraw USDT (จำนวนจริง)</label>
+            <input id="wdUsdt" placeholder="0" />
+          </div>
+          <div>
+            <button class="btn danger" id="btnWdUsdt">Withdraw USDT</button>
+          </div>
+
+          <div>
+            <label>Withdraw MTEC (จำนวนจริง)</label>
+            <input id="wdMtec" placeholder="0" />
+          </div>
+          <div>
+            <button class="btn danger" id="btnWdMtec">Withdraw MTEC</button>
+          </div>
+        </div>
+
+        <div class="hint muted">ปุ่มทั้งหมดจะทำงานได้เฉพาะ Owner เท่านั้น</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
