@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MTEC Admin Panel</title>
+
+  <link rel="stylesheet" href="owner.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="config.js"></script>
+  <script defer src="owner.js"></script>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <div class="title">MTEC Admin Panel</div>
+        <div class="sub">BSC Mainnet • Owner Tools</div>
+      </div>
+      <button id="btnConnect" class="btn primary">Connect Wallet</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>สถานะการเชื่อมต่อ</h3>
+        <div class="row"><span>Chain</span><b id="netText">-</b></div>
+        <div class="row"><span>Wallet</span><b id="walletText">-</b></div>
+        <div class="row"><span>Contract</span><b class="mono" id="contractText">-</b></div>
+        <div class="row"><span>Owner</span><b class="mono" id="ownerText">-</b></div>
+
+        <div id="statusBadge" class="badge warn">Not connected</div>
+        <div id="msg" class="msg"></div>
+      </div>
+
+      <div class="card">
+        <h3>ยอดคงเหลือ</h3>
+        <div class="row"><span>USDT ในสัญญา</span><b id="usdtInContract">-</b></div>
+        <div class="row"><span>MTEC ในสัญญา</span><b id="mtecInContract">-</b></div>
+        <div class="row"><span>USDT ในกระเป๋า</span><b id="usdtInWallet">-</b></div>
+        <div class="row"><span>MTEC ในกระเป๋า</span><b id="mtecInWallet">-</b></div>
+        <button id="btnRefresh" class="btn">Refresh</button>
+      </div>
+
+      <div class="card">
+        <h3>ตั้งค่า APY / Lock / เปิด-ปิด</h3>
+        <label>APY (BPS) เช่น 3000 = 30%</label>
+        <input id="inpAPY" type="number" placeholder="3000" />
+        <label>Lock (วัน) เช่น 180</label>
+        <input id="inpLockDays" type="number" placeholder="180" />
+        <label>Enabled</label>
+        <select id="selEnabled">
+          <option value="true">true</option>
+          <option value="false">false</option>
+        </select>
+        <button id="btnSetParams" class="btn primary">Save Params</button>
+        <div class="hint" id="currentParams">Current: -</div>
+      </div>
+
+      <div class="card">
+        <h3>ตั้งค่า Referral (BPS)</h3>
+        <label>Ref1 (เช่น 1000 = 10%)</label>
+        <input id="inpRef1" type="number" placeholder="1000" />
+        <label>Ref2 (เช่น 300 = 3%)</label>
+        <input id="inpRef2" type="number" placeholder="300" />
+        <label>Ref3 (เช่น 200 = 2%)</label>
+        <input id="inpRef3" type="number" placeholder="200" />
+        <button id="btnSetRefs" class="btn primary">Save Referral</button>
+        <div class="hint" id="currentRefs">Current: -</div>
+      </div>
+
+      <div class="card">
+        <h3>จัดการ Packages</h3>
+        <label>Package ID</label>
+        <input id="pkgId" type="number" placeholder="1" />
+        <label>USDT in</label>
+        <input id="pkgUsdt" type="number" placeholder="10" />
+        <label>MTEC out</label>
+        <input id="pkgMtec" type="number" placeholder="100" />
+        <label>Active</label>
+        <select id="pkgActive">
+          <option value="true">true</option>
+          <option value="false">false</option>
+        </select>
+        <button id="btnSetPkg" class="btn primary">Set Package</button>
+        <div class="hint">
+          <div>Package count: <b id="pkgCount">-</b></div>
+          <div class="mono" id="pkgPreview">-</div>
+        </div>
+      </div>
+
+      <div class="card danger">
+        <h3>Withdraw (Owner)</h3>
+        <label>To address</label>
+        <input id="wdTo" class="mono" placeholder="0x..." />
+        <label>Withdraw USDT</label>
+        <input id="wdUsdt" type="number" placeholder="0" />
+        <button id="btnWdUsdt" class="btn">Withdraw USDT</button>
+        <label>Withdraw MTEC</label>
+        <input id="wdMtec" type="number" placeholder="0" />
+        <button id="btnWdMtec" class="btn">Withdraw MTEC</button>
+      </div>
+    </div>
+
+    <div class="footer mono">
+      Contract: <span id="footerContract">-</span>
+    </div>
+  </div>
+</body>
+</html>
